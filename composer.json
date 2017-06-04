@@ -1,0 +1,15 @@
+{
+    "name": "james/pagarme",
+    "description": "Sample project for PagarMe API",
+    "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^6.2"
+    },
+    "authors": [
+        {
+            "name": "James Miranda",
+            "email": "jameswpm@gmail.com"
+        }
+    ],
+    "require": {}
+}
