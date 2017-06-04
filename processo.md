@@ -1,6 +1,6 @@
 ### Processo para criação do projeto
 
-Este documento tem como objetivo documentar o processo que utilizei para criação do projeto, passo a passo, inclusindo as razões para escolhas de cada tecnologia.
+Este documento tem como objetivo documentar o processo que utilizei para criação do projeto, passo a passo, incluindo as razões para escolhas de cada tecnologia.
 
 #### Passo 1: Leitura da documentação Pagar.Me e escolha dos métodos a serem utilizados
 
