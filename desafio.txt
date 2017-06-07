@@ -1,0 +1,27 @@
+Desafio de Plataformas: Marketplace
+
+Maria Barros decidiu abrir sua startup de aluguel de fantasias de carnaval, onde outros fornecedores também poderão vender suas fantasias conforme combinado. As regras de venda são:
+
+    Para cada fantasia alugada produzida pela Maria, o valor total da venda + R$ 42,00 fixo de frete pertencem à Maria.
+    Para cada fantasia alugada de outros fornecedores, o valor total da venda deverá ser dividido da seguinte forma:
+    15% do valor do produto vai para a Maria.
+    85% + R$ 42,00 de frete para o parceiro.
+
+Abaixo temos algumas das fantasias oferecidas na startup da Maria:
+
+FANTASIA	            FORNECEDOR	                    VALOR (unidade)
+Fantasia do Darth Vader	Maria Barros	                R$ 125,00
+Fantasia do Cafú	    João Thiago Samuel Cavalcanti	R$ 100,00
+Máscara de Cavalo	    César Anthony João Martins	    R$ 150,00
+
+Lembrando que ainda há o valor do frete de R$ 42,00, por compra, e de responsabilidade da Maria.
+
+A sua missão é elaborar uma página de checkout que exiba os produtos acima e nela deve haver um botão para finalizar a compra. A finalização da compra deve ser feita utilizando o checkout Pagar.me e ela deve ser autorizada e capturada após isso, exibindo uma página de sucesso.
+Requisitos
+
+    Entender a melhor forma que o Pagar.me pode solucionar o problema apresentado, não se esqueça de ler com muita atenção a nossa documentação: https://docs-beta.pagar.me/v1/
+    A compra deve ser realizada com cartão de crédito;
+    O desafio é livre para fazer com qualquer recurso, seja PHP puro ou com uso de algum framework, utilizando a última versão do nosso SDK de PHP;
+    Deve haver pelo menos 1 locação envolvendo todos os produtos do marketplace;
+    Não é necessário persistir nenhum dado no lado do cliente.
+

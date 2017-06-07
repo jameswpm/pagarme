@@ -3,7 +3,10 @@
     "description": "Sample project for PagarMe API",
     "type": "project",
     "require-dev": {
-        "phpunit/phpunit": "^6.2"
+        "phpunit/phpunit": "^6.2",
+        "doctrine/orm": "^2.5",
+        "doctrine/dbal": "^2.5",
+        "symfony/yaml": "^3.2"
     },
     "authors": [
         {
@@ -11,5 +14,13 @@
             "email": "jameswpm@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "symfony/http-foundation": "^3.3",
+        "nikic/fast-route": "^1.2"
+    },
+    "autoload": {
+      "psr-4": {
+        "JamesMiranda\\": "src/"
+      }
+    }
 }
