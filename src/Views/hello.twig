@@ -36,9 +36,7 @@
                 </section>
             </div>
             <div class="column is-10">
-                {{ fantasies }}
-                <form role="form">
-                    <table class="table">
+                <table class="table">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -62,19 +60,22 @@
                                     <td class="total">42,00</td>
                                 </tr>
                             {% endfor %}
-                            <tr>
-                                <td colspan="7">
-                                    <button type="submit" class="is-success right-aligned"> <i class="fa fa-check"></i> Finalizar</button>
+                            <tr id="last-line">
+                                <td colspan="6">
+                                    <button type="submit" class="is-success right-aligned" id="pay-button"> <i class="fa fa-check"></i> Finalizar</button>
+                                </td>
+                                <td colspan="1" id="total-amount">
+                                    0,00
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                </form>
             </div>
         </div>
 
 
-        <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        <script src="//assets.pagar.me/checkout/checkout.js"></script>
+        <script src="//code.jquery.com/jquery-2.2.4.min.js"
                 integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
                 crossorigin="anonymous"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

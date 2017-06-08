@@ -3,7 +3,9 @@ require(
     __DIR__ . '/../vendor/autoload.php'
 );
 
-use JamesMiranda\Services\{DoctrineService, TwigService};
+use JamesMiranda\Services\{
+    DoctrineService, TwigService
+};
 use JamesMiranda\Controllers\Fantasy as FantasyController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +19,6 @@ $container = new League\Container\Container;
 $container->add('DoctrineService', DoctrineService::class);
 $container->add('TwigService', TwigService::class);
 
-
 $request = Request::createFromGlobals();
 
 //configure routes
@@ -28,22 +29,23 @@ $dispatcher = FastRoute\simpleDispatcher(
         $doctrine = $container->get('DoctrineService');
         $em = $doctrine->getEm();
 
-        $r->addRoute('GET', '/fantasy/{id:\d+}', 'getFantasyDetail');
-
-        $r->addRoute('POST', '/checkout', 'checkout');
-
+        //MAIN PAGE ROUTE
         $r->addRoute('GET', '/hello', function () use ($twig, $em) {
 
             $controller = new FantasyController($em);
             $fantasies = $controller->allFantasies();
-            
-            $response = new Response(
+
+            $response = new Response (
                 $twig->render('hello.twig', [
                     'fantasies' => $fantasies
                 ])
             );
             $response->send();
         });
+
+        $r->addRoute('GET', '/fantasy/{id:\d+}', 'getFantasyDetail');
+
+        $r->addRoute('POST', '/checkout', 'checkout');
     }
 );
 

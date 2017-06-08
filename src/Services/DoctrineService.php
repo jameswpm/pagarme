@@ -35,7 +35,7 @@ class DoctrineService
 
         $this->connection = [
             'driver' => 'pdo_sqlite',
-            'path'   => __DIR__.'/../../db/db.sqlite'
+            'path'   => __DIR__.'/../../db/db2.sqlite'
         ];
 
 
