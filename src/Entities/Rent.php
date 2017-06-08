@@ -2,6 +2,12 @@
 
 namespace JamesMiranda\Entities;
 
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+
 /**
  * Class Rent
  * Class for Rent Doctrine Entity

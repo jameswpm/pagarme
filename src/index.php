@@ -3,6 +3,7 @@ require(
     __DIR__ . '/../vendor/autoload.php'
 );
 
+use JamesMiranda\Services\{DoctrineService, TwigService};
 use JamesMiranda\Controllers\Fantasy as FantasyController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,32 +12,34 @@ use Symfony\Component\HttpFoundation\Response;
 $provider = new \werx\Config\Providers\ArrayProvider(__DIR__ . '/../config');
 $config = new \werx\Config\Container($provider);
 
+//container for dependency injection
+$container = new League\Container\Container;
+$container->add('DoctrineService', DoctrineService::class);
+$container->add('TwigService', TwigService::class);
 
-// config twig folder
-$twigLoader = new Twig_Loader_Filesystem (
-    __DIR__ . '/Views/'
-);
-
-$twig = new Twig_Environment($twigLoader, [
-    'cache' => '/tmp/twigCache',
-    'auto_reload' => true
-]);
 
 $request = Request::createFromGlobals();
 
 //configure routes
 $dispatcher = FastRoute\simpleDispatcher(
-    function (FastRoute\RouteCollector $r) use ($request, $config, $twig) {
+    function (FastRoute\RouteCollector $r) use ($request, $config, $container) {
+        $twigService = $container->get('TwigService');
+        $twig = $twigService->getTwig();
+        $doctrine = $container->get('DoctrineService');
+        $em = $doctrine->getEm();
+
         $r->addRoute('GET', '/fantasy/{id:\d+}', 'getFantasyDetail');
 
         $r->addRoute('POST', '/checkout', 'checkout');
 
-        $r->addRoute('GET', '/hello', function () use ($twig) {
-            $controller = new FantasyController();
+        $r->addRoute('GET', '/hello', function () use ($twig, $em) {
+
+            $controller = new FantasyController($em);
+            $fantasies = $controller->allFantasies();
             
             $response = new Response(
                 $twig->render('hello.twig', [
-                    
+                    'fantasies' => $fantasies
                 ])
             );
             $response->send();

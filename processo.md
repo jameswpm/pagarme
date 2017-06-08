@@ -21,6 +21,9 @@ Este documento tem como objetivo documentar o processo que utilizei para criaç�
        PHPUnit foi usado para testar as funções no Back-End.
    
   - Front-End
-      - Usado Framework CSS [Bulma](http://bulma.io/) para estilizar a página
+  
+      - Template engine [Twig](https://twig.sensiolabs.org/) para geração da página.
       
-      - 
+      - Usado Framework CSS [Bulma](http://bulma.io/) para estilos.
+      
+      - Usado [JQuery](https://jquery.com/) para interação em tela e envio de requisições assincronas (AJAX)

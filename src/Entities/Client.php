@@ -2,6 +2,10 @@
 
 namespace JamesMiranda\Entities;
 
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Id;
+
 /**
  * Class Client
  * Class for Client Doctrine Entity

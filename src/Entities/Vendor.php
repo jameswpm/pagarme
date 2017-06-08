@@ -2,6 +2,10 @@
 
 namespace JamesMiranda\Entities;
 
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Id;
+
 /**
  * Class Vendor
  * Class for Vendor Doctrine Entity
