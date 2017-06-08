@@ -12,7 +12,7 @@ namespace JamesMiranda\Entities;
 class Rent
 {
     /**
-     * @var Fantasy $Fantasy;
+     * @var Fantasy $Fantasy
      * @Id
      * @ManyToOne(targetEntity="Fantasy")
      * @JoinColumn(name="FantasyId", referencedColumnName="Id")

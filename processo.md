@@ -9,7 +9,6 @@ Este documento tem como objetivo documentar o processo que utilizei para criaç�
  - Detalhe: As compras deverão ser autorizadas e capturadas na loja de exemplo após o clique em "Finalizar", conforme orientações do desafio;
  
 #### Passo 2: Definir a Stack tecnológica para o projeto
-
   - Back-End
  
       - PHP sem nenhum framework full-stack
@@ -19,4 +18,9 @@ Este documento tem como objetivo documentar o processo que utilizei para criaç�
        Uma vez que optei por usar um banco de dados relacional, o SQLite é simples e pode ser versionado junto ao projeto principal. Criação do banco usando [ORM Doctrine](http://www.doctrine-project.org/projects/orm.html).
       
       - Testes
-       PHPUnit foi usado para testar as funções no Back-End. 
+       PHPUnit foi usado para testar as funções no Back-End.
+   
+  - Front-End
+      - Usado Framework CSS [Bulma](http://bulma.io/) para estilizar a página
+      
+      - 

@@ -46,7 +46,4 @@ class Client
     {
         $this->Name = $Name;
     }
-
-
-
 }

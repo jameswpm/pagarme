@@ -7,8 +7,6 @@ require_once __DIR__.'/../vendor/autoload.php';
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
-
-
 $isDevMode = true;
 $configuration = Setup::createAnnotationMetadataConfiguration(
     [__DIR__.'/../src/Entities'],
