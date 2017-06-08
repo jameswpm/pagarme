@@ -66,17 +66,16 @@ $(document).ready(function () {
         // É necessário passar os valores boolean em "var params" como string
         var params = {
                 "amount":1000,
-                "buttonText":"Pagar",
-                "customerData":true,
-                "paymentMethods":"boleto,credit_card",
+                "buttonText":"Finalizar",
+                "customerData":"false",
+                "paymentMethods":"credit_card",
+                "card_brands" : "elo, amex, diners, jcb, hipercard, visa, aura, discover, mastercard",
                 "maxInstallments":12,
                 "uiColor":"#bababa",
                 "postbackUrl":"requestb.in/1234",
-                "createToken":true,
-                "interestRate":12,
-                "freeInstallments":3,
-                "defaultInstallment":5,
-                "headerText":"Título"
+                "createToken":false,
+                "defaultInstallment":1,
+                "headerText":"Total a Pagar"
     };
         checkout.open(params);
     });
