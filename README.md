@@ -15,6 +15,6 @@
     `composer install`
     
  - Run built in server in src directory
-    `cd src/ && php -S localhost:8089`
+    `cd src/ && php -S localhost:8089/app`
     
  - Access the localhost:8089 in your browser and test the page
