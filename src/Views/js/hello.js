@@ -25,58 +25,99 @@ $(document).ready(function () {
         if ($(this).is(':checked')) {
             tr.addClass('is-selected');
 
-            //add price in total cell
-            var prices = $('.total').forEach(function (key,val) {
+            amount += parseFloat(tr.find('.total').text());
 
-            });
+            $('#total-amount').text(amount.formatMoney(2, ',', '.'));
 
         } else {
             tr.removeClass('is-selected');
+
+            if (amount > 0) {
+                amount -= parseFloat(tr.find('.total').text());
+
+                $('#total-amount').text(amount.formatMoney(2, ',', '.'));
+            }
         }
     });
 
     //change total price when quantity changes
     $('.item-qtd').bind('keyup input change', function () {
+        var amount = parseFloat($('#total-amount').text());
         //get the total price
         var tr = $(this).parents('tr');
         var qtd = parseInt($(this).val());
         var price = parseFloat(tr.find('.item-price').text());
 
         var totalCell = tr.find('.total');
+        var oldTotal = parseFloat(totalCell.text());
+        var total = 0;
 
-        var total = (price * qtd) + 42;
+        if (qtd != 0) {
+            total = (price * qtd) + 42;
+        }
 
         totalCell.text(total.formatMoney(2, ',', '.'));
+
+        var selected = tr.find('.select-item');
+        if (selected.is(':checked')) {
+            //update amount
+            amount = amount - oldTotal + total;
+            $('#total-amount').text(amount.formatMoney(2, ',', '.'));
+        }
     });
 
     //below code adapted from pagarme docs
     var button = $('#pay-button');
 
-    button.click(function() {
+    button.click(function () {
 
-        //var amount =
+        var amount = parseFloat($('#total-amount').text()) * 100; // in cents
 
-        var checkout = new PagarMeCheckout.Checkout({"encryption_key":"ek_test_1p7UFcmJPwnBfdfG9Tmy8hpPvnqkTx", success: function(data) {
-            console.log(data);
-            //Tratar aqui as ações de callback do checkout, como exibição de mensagem ou envio de token para captura da transação
-        }});
+        var checkout = new PagarMeCheckout.Checkout({
+            "encryption_key": "ek_test_1p7UFcmJPwnBfdfG9Tmy8hpPvnqkTx", success: function (data) {
+                //include amount in the data to send
+                data.amount = amount;
+                var url = window.location.href;
+                //Send data to PHP
+                $.ajax({
+                    url: url + '/checkout',
+                    data: JSON.stringify(data),
+                    type: 'POST',
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+                    success: function (retorno) {
+                        console.log(retorno);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        toastr.error(textStatus);
+                        console.log("Error... " + textStatus + "        " + errorThrown);
+                    },
+                    complete: function () {
+                        toastr.warning("Em 5 segundos, a página será recarregada para próxima compra.");
+                        /*setTimeout(function () {
+                            location.reload();
+                        }, 5000);*/
+                    }
+                });
+            }
+        });
 
         // DEFINIR AS OPÇÕES
         // e abrir o modal
         // É necessário passar os valores boolean em "var params" como string
         var params = {
-                "amount":1000,
-                "buttonText":"Finalizar",
-                "customerData":"false",
-                "paymentMethods":"credit_card",
-                "card_brands" : "elo, amex, diners, jcb, hipercard, visa, aura, discover, mastercard",
-                "maxInstallments":12,
-                "uiColor":"#bababa",
-                "postbackUrl":"requestb.in/1234",
-                "createToken":false,
-                "defaultInstallment":1,
-                "headerText":"Total a Pagar"
-    };
+            "amount": amount,
+            "buttonText": "Finalizar",
+            "customerData": "false",
+            "paymentMethods": "credit_card",
+            "card_brands": "elo, amex, diners, jcb, hipercard, visa, aura, discover, mastercard",
+            "maxInstallments": 12,
+            "uiColor": "#bababa",
+            "createToken": true,
+            "defaultInstallment": 1,
+            "headerText": "Total a Pagar"
+        };
         checkout.open(params);
     });
 

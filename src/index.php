@@ -7,12 +7,14 @@ use JamesMiranda\Services\{
     DoctrineService, TwigService
 };
 use JamesMiranda\Controllers\Fantasy as FantasyController;
+use JamesMiranda\Controllers\Payment as PaymentController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 //config management
 $provider = new \werx\Config\Providers\ArrayProvider(__DIR__ . '/../config');
 $config = new \werx\Config\Container($provider);
+$config->load('config');
 
 //container for dependency injection
 $container = new League\Container\Container;
@@ -30,7 +32,7 @@ $dispatcher = FastRoute\simpleDispatcher(
         $em = $doctrine->getEm();
 
         //MAIN PAGE ROUTE
-        $r->addRoute('GET', '/hello', function () use ($twig, $em) {
+        $r->addRoute('GET', '/app', function () use ($twig, $em) {
 
             $controller = new FantasyController($em);
             $fantasies = $controller->allFantasies();
@@ -43,9 +45,26 @@ $dispatcher = FastRoute\simpleDispatcher(
             $response->send();
         });
 
-        $r->addRoute('GET', '/fantasy/{id:\d+}', 'getFantasyDetail');
+        $r->addRoute('POST', '/app/checkout', function () use ($em, $config) {
 
-        $r->addRoute('POST', '/checkout', 'checkout');
+            //to get POST params
+            $data = json_decode(file_get_contents('php://input'), true);
+            
+            $paymentController = new PaymentController($em, $config->get('api-key'));
+            $transact = $paymentController->getTransaction($data['token'], $data['amount']);
+
+            if ($transact) {
+                //a successful transaction
+                print_r( json_encode('{status: suc}'));
+            } else {
+                print_r( json_encode('{status: err}'));
+            }
+            $response = new Response (
+
+            );
+            $response->send();
+
+        });
     }
 );
 

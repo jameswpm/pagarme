@@ -14,6 +14,10 @@ class Fantasy
      */
     private $fantasies;
 
+    /**
+     * Fantasy constructor.
+     * @param EntityManager $em
+     */
     public function __construct(EntityManager $em)
     {
         $fantasyRepository = $em->getRepository('JamesMiranda\Entities\Fantasy');

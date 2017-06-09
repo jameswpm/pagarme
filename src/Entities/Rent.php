@@ -32,14 +32,7 @@ class Rent
      * @ManyToOne(targetEntity="Client")
      * @JoinColumn(name="ClientId", referencedColumnName="Id")
      */
-    protected $Client;
-
-    /**
-     * @var Vendor $Vendor
-     * @OneToOne(targetEntity="Vendor")
-     * @JoinColumn(name="VendorId", referencedColumnName="Id")
-     */
-    protected $Vendor;
+    protected $Client;   
 
     /**
      * @var \DateTime $RentDate
@@ -48,15 +41,15 @@ class Rent
     protected $RentDate;
 
     /**
-     * @var float $TotalPrice
-     * @Column(type="float")
+     * @var string $TotalPrice
+     * @Column(type="decimal", precision=7, scale=2)
      */
     protected $TotalPrice;
 
     /**
      * @return Fantasy
      */
-    public function getFantasy(): Fantasy
+    public function getFantasy()
     {
         return $this->Fantasy;
     }
@@ -64,7 +57,7 @@ class Rent
     /**
      * @param Fantasy $Fantasy
      */
-    public function setFantasy(Fantasy $Fantasy)
+    public function setFantasy($Fantasy)
     {
         $this->Fantasy = $Fantasy;
     }
@@ -72,7 +65,7 @@ class Rent
     /**
      * @return Client
      */
-    public function getClient(): Client
+    public function getClient()
     {
         return $this->Client;
     }
@@ -80,31 +73,15 @@ class Rent
     /**
      * @param Client $Client
      */
-    public function setClient(Client $Client)
+    public function setClient($Client)
     {
         $this->Client = $Client;
     }
 
     /**
-     * @return Vendor
-     */
-    public function getVendor(): Vendor
-    {
-        return $this->Vendor;
-    }
-
-    /**
-     * @param Vendor $Vendor
-     */
-    public function setVendor(Vendor $Vendor)
-    {
-        $this->Vendor = $Vendor;
-    }
-
-    /**
      * @return \DateTime
      */
-    public function getRentDate(): \DateTime
+    public function getRentDate()
     {
         return $this->RentDate;
     }
@@ -112,23 +89,23 @@ class Rent
     /**
      * @param \DateTime $RentDate
      */
-    public function setRentDate(\DateTime $RentDate)
+    public function setRentDate($RentDate)
     {
         $this->RentDate = $RentDate;
     }
 
     /**
-     * @return float
+     * @return string
      */
-    public function getTotalPrice(): float
+    public function getTotalPrice()
     {
         return $this->TotalPrice;
     }
 
     /**
-     * @param float $TotalPrice
+     * @param string $TotalPrice
      */
-    public function setTotalPrice(float $TotalPrice)
+    public function setTotalPrice($TotalPrice)
     {
         $this->TotalPrice = $TotalPrice;
     }

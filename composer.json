@@ -2,9 +2,6 @@
     "name": "james/pagarme",
     "description": "Sample project for PagarMe API",
     "type": "project",
-    "require-dev": {
-        "phpunit/phpunit": "^6.2"
-    },
     "authors": [
         {
             "name": "James Miranda",
@@ -19,7 +16,8 @@
         "league/container": "^2.4",
         "doctrine/orm": "^2.5",
         "doctrine/dbal": "^2.5",
-        "symfony/yaml": "^3.2"
+        "symfony/yaml": "^3.2",
+        "pagarme/pagarme-php": "^3.3"
     },
     "autoload": {
       "psr-4": {

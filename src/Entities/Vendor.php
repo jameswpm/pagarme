@@ -34,11 +34,25 @@ class Vendor
     protected $Owner;
 
     /**
+     * @var string $Money
+     * @Column(type="decimal", precision=7, scale=2)
+     */
+    protected $Money;
+
+    /**
      * @return int
      */
     public function getId()
     {
         return $this->Id;
+    }
+
+    /**
+     * @param int $Id
+     */
+    public function setId($Id)
+    {
+        $this->Id = $Id;
     }
 
     /**
@@ -71,5 +85,21 @@ class Vendor
     public function setOwner($Owner)
     {
         $this->Owner = $Owner;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMoney()
+    {
+        return $this->Money;
+    }
+
+    /**
+     * @param string $Money
+     */
+    public function setMoney($Money)
+    {
+        $this->Money = $Money;
     }
 }

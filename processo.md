@@ -16,9 +16,7 @@ Este documento tem como objetivo documentar o processo que utilizei para criaç�
       
       - SQLite para banco de dados
        Uma vez que optei por usar um banco de dados relacional, o SQLite é simples e pode ser versionado junto ao projeto principal. Criação do banco usando [ORM Doctrine](http://www.doctrine-project.org/projects/orm.html).
-      
-      - Testes
-       PHPUnit foi usado para testar as funções no Back-End.
+       Recomendo o uso do [sqliteonline](https://sqliteonline.com/) para navegar no BD. 
    
   - Front-End
   

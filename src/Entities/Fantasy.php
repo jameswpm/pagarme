@@ -36,11 +36,26 @@ class Fantasy
     protected $Price;
 
     /**
+     * @var Vendor $Vendor
+     * @ManyToOne(targetEntity="Vendor")
+     * @JoinColumn(name="VendorId", referencedColumnName="Id")
+     */
+    protected $Vendor;
+
+    /**
      * @return int
      */
     public function getId()
     {
         return $this->Id;
+    }
+
+    /**
+     * @param int $Id
+     */
+    public function setId($Id)
+    {
+        $this->Id = $Id;
     }
 
     /**
@@ -73,5 +88,21 @@ class Fantasy
     public function setPrice($Price)
     {
         $this->Price = $Price;
+    }
+
+    /**
+     * @return Vendor
+     */
+    public function getVendor()
+    {
+        return $this->Vendor;
+    }
+
+    /**
+     * @param Vendor $Vendor
+     */
+    public function setVendor($Vendor)
+    {
+        $this->Vendor = $Vendor;
     }
 }
