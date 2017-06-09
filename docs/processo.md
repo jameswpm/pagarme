@@ -25,3 +25,10 @@ Este documento tem como objetivo documentar o processo que utilizei para criaç�
       - Usado Framework CSS [Bulma](http://bulma.io/) para estilos.
       
       - Usado [JQuery](https://jquery.com/) para interação em tela e envio de requisições assincronas (AJAX)
+
+#### Passo 3: Testes manuais
+      
+   - Realizei testes manuais para cada operação de compra
+    - Alugar uma fantasia - OK
+    - Alugar mais de uma fantasia do mesmo fornecedor - Ok
+    - Alugar mais de uma fantasia de fornecedores diferentes - Ok

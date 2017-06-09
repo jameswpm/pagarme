@@ -71,7 +71,7 @@ $(document).ready(function () {
 
     button.click(function () {
 
-        var amount = parseFloat($('#total-amount').text()) * 100; // in cents
+        var amount = parseFloat($('#total-amount').text().replace(/\./g, "")) * 100; // in cents
         //get info on the fantasies
         var fantasies = [];
         $('.select-item').each(function(k) {
@@ -99,7 +99,11 @@ $(document).ready(function () {
                     cache: false,
                     processData:false,
                     success: function (retorno) {
-                        console.log(retorno);
+                        if (retorno.status == 'err') {
+                            toastr.error(retorno.msg);
+                        } else {
+                            toastr.success(retorno.msg);
+                        }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         toastr.error(textStatus);
@@ -107,9 +111,9 @@ $(document).ready(function () {
                     },
                     complete: function () {
                         toastr.warning("Em 5 segundos, a página será recarregada para próxima compra.");
-                        /*setTimeout(function () {
+                        setTimeout(function () {
                             location.reload();
-                        }, 5000);*/
+                        }, 5000);
                     }
                 });
             }

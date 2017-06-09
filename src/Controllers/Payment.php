@@ -5,17 +5,10 @@ namespace JamesMiranda\Controllers;
 use Doctrine\ORM\EntityManager;
 use Exception;
 use JamesMiranda\Entities\Rent;
-use JamesMiranda\Entities\Vendor;
 use JamesMiranda\Services\PagarMeService;
-use PagarMe\Sdk\PagarMe;
 
 class Payment
 {
-    /**
-     * @var string $apiKey;
-     */
-    private $apiKey;
-
     /**
      * @var Object $transaction
      */
@@ -27,7 +20,7 @@ class Payment
     protected $em;
 
     /**
-     * @var PagarMe
+     * @var PagarMeService
      */
     protected $pagarMe;
 
@@ -39,7 +32,7 @@ class Payment
      */
     public function __construct(EntityManager $em, PagarMeService $pagarMe)
     {
-        $this->pagarMe = $pagarMe->getApi();
+        $this->pagarMe = $pagarMe;
 
         $this->em = $em;
     }
@@ -51,12 +44,8 @@ class Payment
      */
     public function getTransaction($token, $amount)
     {
-        $amountToCapture = $amount;
-        $transaction = $this->pagarMe->transaction()->get($token);
-        $this->transaction = $this->pagarMe->transaction()->capture(
-            $transaction,
-            $amountToCapture
-        );
+        $this->transaction = $this->pagarMe->getTransaction($token, $amount);
+
         
         //check status to see if the transaction was paid
         if ($this->transaction->getStatus() == 'paid') {
@@ -83,7 +72,7 @@ class Payment
                 $client = $this->em->find('JamesMiranda\Entities\Client', 1);
                 //endregion
 
-                $totalPrice = $fantasyDB->getPrice() * $fantasy['qtd'];
+                $totalPrice = ($fantasyDB->getPrice() * $fantasy['qtd']) + 42;
                 $now = new \DateTime();
 
                 $rent = new Rent();
@@ -111,23 +100,39 @@ class Payment
         if ($vendor->isOwner()) {
             $money = $vendor->getMoney();
             $vendor->setMoney((string)((float)$rent->getTotalPrice() + (float)$money));
+
+            $this->em->flush();
+            //use Pagarme to actually pay the vendor TODO: Did not work with fake bankaccount number
+            /*if(!$this->pagarMe->payVendor($vendor, $money)) {
+                throw new Exception("Pagamento gravado no banco, mas não enviado");
+            }*/
         } else {
             //get owner
-            $query = $this->em->createQuery( 'SELECT Id FROM vendors WHERE Owner = 1 LIMIT 1' );
+            $query = 'SELECT Id FROM vendors WHERE Owner = 1';
 
-            $vendorO = new Vendor($query);
+            $stmt = $this->em->getConnection()->prepare($query);
+            $stmt->execute();
+            $result =  $stmt->fetchAll();
 
             $total = $rent->getTotalPrice();
             $totalForVendorO = ($total - 42) * 0.15;//15%
             $totalForVendor = $total - $totalForVendorO;//85% + 42
 
+            $vendorO = $this->em->find('JamesMiranda\Entities\Vendor', $result[0]['Id']);
             $moneyVO = $vendorO->getMoney();
             $vendorO->setMoney((string)((float)$totalForVendorO + (float)$moneyVO));
             $money = $vendor->getMoney();
             $vendor->setMoney((string)((float)$totalForVendor + (float)$money));
+
+            $this->em->flush();
+
+            /*$pay1 = $this->pagarMe->payVendor($vendor, $totalForVendor);
+            $pay2 = $this->pagarMe->payVendor($vendorO, $totalForVendorO);
+
+            if (!($pay1 && $pay2)) {
+                //if any payment fails
+                throw new Exception("Pagamentos gravados no banco, mas não enviados");
+            }*/
         }
-
-        $this->em->flush();
-
     }
 }

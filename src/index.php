@@ -51,16 +51,21 @@ $dispatcher = FastRoute\simpleDispatcher(
 
             //to get POST params
             $data = json_decode(file_get_contents('php://input'), true);
-            
-            $paymentController = new PaymentController($em, $pagarme);
-            $transact = $paymentController->getTransaction($data['token'], $data['amount']);
 
-            if ($transact) {
-                //a successful transaction
-                $paymentController->saveInfo($data['fantasies']);
-                print_r( json_encode('{status: suc}'));
-            } else {
-                print_r( json_encode('{status: err}'));
+            try {
+                $paymentController = new PaymentController($em, $pagarme);
+                $transact = $paymentController->getTransaction($data['token'], $data['amount']);
+
+                if ($transact) {
+                    //a successful transaction
+                    $paymentController->saveInfo($data['fantasies']);
+                    print_r(json_encode('{status: suc, msg: "Operação concluída com sucesso"}'));
+                } else {
+                    print_r(json_encode('{status: err, msg: "Falha na transação"}'));
+                }
+            }
+            catch (Exception $e) {
+                print_r(json_encode('{status: err, msg: "'. $e->getMessage() .'"}'));
             }
             $response = new Response (
 
