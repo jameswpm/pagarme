@@ -72,11 +72,23 @@ $(document).ready(function () {
     button.click(function () {
 
         var amount = parseFloat($('#total-amount').text()) * 100; // in cents
+        //get info on the fantasies
+        var fantasies = [];
+        $('.select-item').each(function(k) {
+            if ($(this).is(':checked')) {
+                var tr = $(this).parents('tr');
+                fantasies.push({
+                   "fantasie_id" : tr.find('.item-id').text(),
+                   "qtd" : tr.find('.item-qtd').val()
+                });
+            }
+        });
 
         var checkout = new PagarMeCheckout.Checkout({
             "encryption_key": "ek_test_1p7UFcmJPwnBfdfG9Tmy8hpPvnqkTx", success: function (data) {
                 //include amount in the data to send
                 data.amount = amount;
+                data.fantasies = fantasies;
                 var url = window.location.href;
                 //Send data to PHP
                 $.ajax({

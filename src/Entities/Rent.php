@@ -18,9 +18,15 @@ use Doctrine\ORM\Mapping\OneToOne;
  */
 class Rent
 {
+
+    /**
+     * @var int $Id
+     * @Id @Column(type="integer") @GeneratedValue
+     */
+    protected $Id;
+
     /**
      * @var Fantasy $Fantasy
-     * @Id
      * @ManyToOne(targetEntity="Fantasy")
      * @JoinColumn(name="FantasyId", referencedColumnName="Id")
      */
@@ -28,7 +34,6 @@ class Rent
 
     /**
      * @var Client $Client
-     * @Id
      * @ManyToOne(targetEntity="Client")
      * @JoinColumn(name="ClientId", referencedColumnName="Id")
      */
@@ -109,4 +114,13 @@ class Rent
     {
         $this->TotalPrice = $TotalPrice;
     }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->Id;
+    }
+
 }

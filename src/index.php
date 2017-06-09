@@ -4,7 +4,7 @@ require(
 );
 
 use JamesMiranda\Services\{
-    DoctrineService, TwigService
+    DoctrineService, PagarMeService, TwigService
 };
 use JamesMiranda\Controllers\Fantasy as FantasyController;
 use JamesMiranda\Controllers\Payment as PaymentController;
@@ -20,6 +20,7 @@ $config->load('config');
 $container = new League\Container\Container;
 $container->add('DoctrineService', DoctrineService::class);
 $container->add('TwigService', TwigService::class);
+$container->add('PagarMeService', PagarMeService::class);
 
 $request = Request::createFromGlobals();
 
@@ -30,6 +31,7 @@ $dispatcher = FastRoute\simpleDispatcher(
         $twig = $twigService->getTwig();
         $doctrine = $container->get('DoctrineService');
         $em = $doctrine->getEm();
+        $pagarme = $container->get('PagarMeService', [$config->get('api-key')]);
 
         //MAIN PAGE ROUTE
         $r->addRoute('GET', '/app', function () use ($twig, $em) {
@@ -45,16 +47,17 @@ $dispatcher = FastRoute\simpleDispatcher(
             $response->send();
         });
 
-        $r->addRoute('POST', '/app/checkout', function () use ($em, $config) {
+        $r->addRoute('POST', '/app/checkout', function () use ($em, $pagarme) {
 
             //to get POST params
             $data = json_decode(file_get_contents('php://input'), true);
             
-            $paymentController = new PaymentController($em, $config->get('api-key'));
+            $paymentController = new PaymentController($em, $pagarme);
             $transact = $paymentController->getTransaction($data['token'], $data['amount']);
 
             if ($transact) {
                 //a successful transaction
+                $paymentController->saveInfo($data['fantasies']);
                 print_r( json_encode('{status: suc}'));
             } else {
                 print_r( json_encode('{status: err}'));

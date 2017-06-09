@@ -40,6 +40,12 @@ class Vendor
     protected $Money;
 
     /**
+     * @var string $RecipientId
+     * @Column(type="string")
+     */
+    protected $RecipientId;
+
+    /**
      * @return int
      */
     public function getId()
@@ -101,5 +107,21 @@ class Vendor
     public function setMoney($Money)
     {
         $this->Money = $Money;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRecipientId(): string
+    {
+        return $this->RecipientId;
+    }
+
+    /**
+     * @param string $RecipientId
+     */
+    public function setRecipientId(string $RecipientId)
+    {
+        $this->RecipientId = $RecipientId;
     }
 }
